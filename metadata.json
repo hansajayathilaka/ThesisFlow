@@ -1,0 +1,5 @@
+{
+  "name": "ThesisFlow: AI Academic LaTeX Editor",
+  "description": "A modular LaTeX research environment with AI-powered refinement, document conversion, and live rendering.",
+  "requestFramePermissions": []
+}
