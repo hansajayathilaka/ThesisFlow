@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { BlockMath } from 'react-katex';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -16,6 +17,23 @@ interface MarkdownRendererProps {
 
 export const MarkdownRenderer = ({ content, files, darkMode, className }: MarkdownRendererProps) => {
   const components = {
+    table: ({ children }: any) => (
+      <div className="overflow-x-auto my-8 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <table className="w-full border-collapse text-sm">{children}</table>
+      </div>
+    ),
+    thead: ({ children }: any) => (
+      <thead className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">{children}</thead>
+    ),
+    th: ({ children }: any) => (
+      <th className="px-4 py-3 text-left font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider text-[10px]">{children}</th>
+    ),
+    td: ({ children }: any) => (
+      <td className="px-4 py-3 border-t border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400">{children}</td>
+    ),
+    tr: ({ children }: any) => (
+      <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">{children}</tr>
+    ),
     img: ({ src, alt }: any) => {
       const file = files.find(f => f.name === src);
       const url = file ? file.data : src;
@@ -68,7 +86,7 @@ export const MarkdownRenderer = ({ content, files, darkMode, className }: Markdo
         : "bg-white border-slate-200",
       className
     )}>
-      <ReactMarkdown components={components as any}>{content}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components as any}>{content}</ReactMarkdown>
     </div>
   );
 };
